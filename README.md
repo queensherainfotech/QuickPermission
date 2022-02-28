@@ -1,8 +1,11 @@
 # QuickPermission
 Enable permissions runtime while inside app  using QuickPermission library.
 
-[![](https://jitpack.io/v/com.queensherainfotech/QuickPermission.svg)](https://jitpack.io/#com.queensherainfotech/QuickPermission)
-
+<a href="#"><img alt="Android OS" src="https://img.shields.io/badge/OS-Android-3DDC84?style=flat-square&logo=android"></a>
+<a href="#"><img alt="Languages-Java" src="https://img.shields.io/badge/Language-Java-1DA1F2?style=flat-square&logo=java"></a>
+<a href="#"><img alt="API 21+" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat"></a>
+<a href="https://jitpack.io/#com.queensherainfotech/QuickPermission"><img alt="jitpack" src="https://jitpack.io/v/com.queensherainfotech/QuickPermission.svg"></a>
+<a href="https://github.com/queensherainfotech/QuickPermission/blob/master/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-success.svg" target="_blank" /></a>
 
 settings.gradle (Project Settings)
 ------
