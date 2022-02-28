@@ -4,25 +4,27 @@ Enable permissions runtime while inside app  using QuickPermission library.
 [![](https://jitpack.io/v/com.queensherainfotech/QuickPermission.svg)](https://jitpack.io/#com.queensherainfotech/QuickPermission)
 
 
-Project level gradle
+settings.gradle (Project Settings)
 ------
 ```
-allprojects {
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+        jcenter() // Warning: this repository is going to shut down soon
         maven { url 'https://jitpack.io' }
     }
 }
 ```
 
 
-App level gradle
+build.gradle (app module)
 ------
 ```
 dependencies {
     ...
-    implementation 'com.queensherainfotech:QuickPermission:1.0.0'
+    implementation 'com.queensherainfotech:QuickPermission:1.0.1'
 }
 ```
 
@@ -35,7 +37,7 @@ To begin using QuickPermission, have your `Activity` (or `Fragment`) override th
 public class MainActivity extends AppCompatActivity {
 
     private static final String[] ALL_PERMISSIONS = {
-            Manifest.permission.READ_SMS, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_SMS, Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
     };
     QuickPermission permission;
@@ -48,12 +50,20 @@ public class MainActivity extends AppCompatActivity {
         permission = new QuickPermission.Builder().with(this)
                 .listener(new OnPermissionListener() {
                     @Override public void onAllPermissionsGranted(@NonNull List<String> permissions) {
+//                        Log.e("response","all granted permissions: "+String.valueOf(permissions));
                     }
 
                     @Override public void onPermissionsGranted(@NonNull List<String> permissions) {
+//                        Log.e("response","granted permissions: "+String.valueOf(permissions));
                     }
 
                     @Override public void onPermissionsDenied(@NonNull List<String> permissions) {
+//                        Log.e("response","denied permissions: "+String.valueOf(permissions));
+                    }
+
+                    @Override
+                    public void onPermissionsPermanentDenied(@NonNull List<String> permissions) {
+//                        Log.e("response","permanent denied permissions: "+String.valueOf(permissions));
                     }
                 })
                 .build();

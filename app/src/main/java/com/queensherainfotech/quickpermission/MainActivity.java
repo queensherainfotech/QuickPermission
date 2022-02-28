@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -17,7 +18,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final String[] ALL_PERMISSIONS = {
-            Manifest.permission.READ_SMS, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_SMS, Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
     };
 
@@ -37,12 +38,20 @@ public class MainActivity extends AppCompatActivity {
         permission = new QuickPermission.Builder().with(this)
                 .listener(new OnPermissionListener() {
                     @Override public void onAllPermissionsGranted(@NonNull List<String> permissions) {
+//                        Log.e("response","all granted permissions: "+String.valueOf(permissions));
                     }
 
                     @Override public void onPermissionsGranted(@NonNull List<String> permissions) {
+//                        Log.e("response","granted permissions: "+String.valueOf(permissions));
                     }
 
                     @Override public void onPermissionsDenied(@NonNull List<String> permissions) {
+//                        Log.e("response","denied permissions: "+String.valueOf(permissions));
+                    }
+
+                    @Override
+                    public void onPermissionsPermanentDenied(@NonNull List<String> permissions) {
+//                        Log.e("response","permanent denied permissions: "+String.valueOf(permissions));
                     }
                 })
                 .build();
@@ -72,10 +81,10 @@ public class MainActivity extends AppCompatActivity {
         storage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!permission.hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    permission.request(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if(!permission.hasPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    permission.request(Manifest.permission.READ_EXTERNAL_STORAGE);
                 } else {
-                    Toast.makeText(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE + " already granted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE + " already granted", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -2,6 +2,8 @@ package com.queensherainfotech.permissionlibrary;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -22,9 +24,21 @@ public class QuickPermission {
     public void onRequestPermissionsResult(String[] permissions, int[] grantResults) {
         List<String> grantedPermissions = new ArrayList<>();
         List<String> deniedPermissions = new ArrayList<>();
+        List<String> permanentDeniedPermissions = new ArrayList<>();
         for (int i = 0; i < grantResults.length; i++) {
             if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                deniedPermissions.add(permissions[i]);
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    boolean showRationale = !activity.shouldShowRequestPermissionRationale(permissions[i]);
+                    if(showRationale){
+                        permanentDeniedPermissions.add(permissions[i]);
+                    }
+                    else{
+                        deniedPermissions.add(permissions[i]);
+                    }
+                }
+                else {
+                    deniedPermissions.add(permissions[i]);
+                }
             } else {
                 grantedPermissions.add(permissions[i]);
             }
@@ -34,14 +48,14 @@ public class QuickPermission {
         } else {
             onPermissionListener.onPermissionsGranted(grantedPermissions);
             onPermissionListener.onPermissionsDenied(deniedPermissions);
+            onPermissionListener.onPermissionsPermanentDenied(permanentDeniedPermissions);
         }
     }
 
     public void request(String... permissions) {
         List<String> permissionNeeded = new ArrayList<>();
         for (String permission : permissions) {
-            if (ActivityCompat.checkSelfPermission(activity, permission)
-                    != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
                 permissionNeeded.add(permission);
             }
         }
@@ -52,8 +66,7 @@ public class QuickPermission {
 
     public boolean hasPermission(String... permissions) {
         for (String permission : permissions) {
-            if (ActivityCompat.checkSelfPermission(activity, permission)
-                    != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
                 return false;
             }
         }

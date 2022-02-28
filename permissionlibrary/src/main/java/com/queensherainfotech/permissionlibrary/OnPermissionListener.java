@@ -10,4 +10,6 @@ public interface OnPermissionListener {
     void onPermissionsGranted(@NonNull List<String> permissions);
 
     void onPermissionsDenied(@NonNull List<String> permissions);
+
+    void onPermissionsPermanentDenied(@NonNull List<String> permissions);
 }
